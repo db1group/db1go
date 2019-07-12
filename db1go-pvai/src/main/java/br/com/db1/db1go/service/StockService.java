@@ -21,4 +21,9 @@ public class StockService {
         List<StockDTO> stocksDto = new StockAdapter().toDto(stocks);
         return stocksDto;
     }
+
+    public void save(StockDTO stockDTO) {
+        Stock stock = new StockAdapter().toEntity(stockDTO);
+        stockRepository.save(stock);
+    }
 }

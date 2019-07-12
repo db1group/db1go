@@ -18,4 +18,13 @@ public class StockAdapter {
         }).collect(Collectors.toList());
     }
 
+    public Stock toEntity(StockDTO stockDTO) {
+        Stock stock = new Stock();
+        stock.setName(stockDTO.getName());
+        stock.setDate(stockDTO.getDate());
+        stock.setStartValue(stockDTO.getValue().getStart());
+        stock.setEndValue(stockDTO.getValue().getEnd());
+        return stock;
+    }
+
 }
