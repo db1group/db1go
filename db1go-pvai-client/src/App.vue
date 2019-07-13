@@ -1,29 +1,48 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <v-app>
+    <v-toolbar dark color="primary">
+      <v-toolbar-title>DB1 Go</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="header__items">
+        <router-link to="/consulta">
+          <span class="items__option">
+            Consulta
+          </span>
+        </router-link>
+        <router-link to="/cadastro">
+          <span class="items__option">
+            Cadastro
+          </span>
+        </router-link>
+      </v-toolbar-items>
+    </v-toolbar>
+    <div class="content">
+      <router-view></router-view>
     </div>
-    <router-view/>
-  </div>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+<script>
+import { Vue, Component } from 'vue-property-decorator';
+@Component({})
+export default class App extends Vue {}
+</script>
+<style lang="sass" scoped>
+.header
+  &__items
+    display: flex
+    align-items: center
+    font-size: 20px
+.items
+  &__option
+    color: #FFFFFF
+    display: block
+    padding: 0 15px
+    &:hover
+      color: #b7e3ff
+.content
+  padding: 30px 15px 0 15px
+.router-link-active
+  font-size: 22px
+  text-transform: uppercase
 </style>
