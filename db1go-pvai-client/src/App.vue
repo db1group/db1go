@@ -4,14 +4,14 @@
       <v-toolbar-title>DB1 Go</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="header__items">
-        <router-link to="/consulta">
+        <router-link to="/home">
           <span class="items__option">
-            Consulta
+            Home
           </span>
         </router-link>
-        <router-link to="/cadastro">
+        <router-link to="/new">
           <span class="items__option">
-            Cadastro
+            New
           </span>
         </router-link>
       </v-toolbar-items>

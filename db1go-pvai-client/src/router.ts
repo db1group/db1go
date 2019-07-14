@@ -10,16 +10,16 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/consulta',
+      path: '/home',
       component: Consulta,
     },
     {
-      path: '/cadastro',
+      path: '/new',
       component: Cadastro,
     },
     {
       path: '*',
-      redirect: '/consulta',
+      redirect: '/home',
     },
   ],
 });
