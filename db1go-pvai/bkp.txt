@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      uri: mongodb+srv://db1go2019:db1go2019@cluster0-mffwe.gcp.mongodb.net/test?retryWrites=true&w=majority
+      database: stock_exchanges_db
+
+---
+
+spring:
+  profiles: dev
+  mongodb:
+    host: 127.0.0.1
+    port: 27017
+    username:
+    password:
+    database: stock_exchanges_db
+
+
+docker run --name mongo-db1go -p 27017:27017 -d mongo
