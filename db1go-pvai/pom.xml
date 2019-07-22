@@ -20,11 +20,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<goals>
-						<goal>repackage</goal>
-					</goals>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
