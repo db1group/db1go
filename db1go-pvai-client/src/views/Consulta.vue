@@ -1,20 +1,17 @@
 <template>
   <div>
     <v-card class="options" height="30px" flat>
-      <v-bottom-nav :active.sync="bottomNav" :value="true" absolute color="transparent">
-        <v-btn color="teal" flat value="refresh">
+      <v-bottom-nav :value="true" absolute color="transparent">
+        <v-btn color="teal" flat value="refresh" @click="findAllStocks">
           <span>Refresh</span>
           <v-icon>refresh</v-icon>
         </v-btn>
       </v-bottom-nav>
     </v-card>
-
     <v-data-table
-      v-model="selected"
       :headers="headers"
-      :items="desserts"
-      hide-actions="true"
-      select-all
+      :items="stocks"
+      :hide-actions="true"
       item-key="name"
       class="elevation-1"
     >
@@ -27,8 +24,8 @@
         <tr>
           <td>{{ props.item.name }}</td>
           <td class="text-xs-center">{{ props.item.date }}</td>
-          <td class="text-xs-center">{{ props.item.startValue }}</td>
-          <td class="text-xs-center">{{ props.item.endValue }}</td>
+          <td class="text-xs-center">{{ props.item.value.start }}</td>
+          <td class="text-xs-center">{{ props.item.value.end }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -36,10 +33,14 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import StockService from '../domain/stock/stock.service';
+import Stock from '../domain/stock/stock.entity';
 
 @Component({})
 export default class Consulta extends Vue {
-  headers = [
+  stocks: Stock[] = [];
+
+  readonly headers = [
     {
       text: 'Name',
       align: 'left',
@@ -59,26 +60,13 @@ export default class Consulta extends Vue {
     },
   ];
 
-  desserts = [
-    {
-      name: 'Will',
-      date: '2016-06-03',
-      startValue: 10,
-      endValue: 24,
-    },
-    {
-      name: 'João',
-      date: '2016-06-03',
-      startValue: 10,
-      endValue: 24,
-    },
-    {
-      name: 'Frozen',
-      date: '2016-06-03',
-      startValue: 10,
-      endValue: 24,
-    },
-  ];
+  created() {
+    this.findAllStocks();
+  }
+
+  findAllStocks() {
+    StockService.getAll().then(stocks => this.stocks = stocks);
+  }
 }
 </script>
 <style lang="sass" scoped>
