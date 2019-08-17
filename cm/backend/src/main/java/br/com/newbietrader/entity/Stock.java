@@ -1,14 +1,26 @@
 package br.com.newbietrader.entity;
 
+import org.bson.types.ObjectId;
+
 import java.time.LocalDate;
 
 public class Stock {
+
+	private ObjectId id;
 
 	private String name;
 
 	private LocalDate date;
 
 	private StockValue value;
+
+	public ObjectId getId() {
+		return id;
+	}
+
+	public void setId(ObjectId id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -34,5 +46,5 @@ public class Stock {
 		this.value = value;
 	}
 
-	
+
 }
