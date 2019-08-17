@@ -24,4 +24,10 @@ export default class StockService {
         return axios
                 .put(`/stocks/${id}`, stock);
     }
+
+    public static remove(id: string): Promise<Stock> {
+        return axios
+        .delete(`/stocks/${id}`)
+        .then(response => new Stock(response.data));
+    }
 }

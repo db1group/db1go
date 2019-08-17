@@ -40,4 +40,10 @@ public class StockResource {
         stockService.update(new ObjectId(id), dto);
     }
 
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") String id) {
+        stockService.devele(new ObjectId(id));
+    }
+
 }

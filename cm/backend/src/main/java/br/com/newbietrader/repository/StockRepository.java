@@ -8,12 +8,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 
 import br.com.newbietrader.dto.StockDTO;
 import br.com.newbietrader.entity.Stock;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
@@ -35,19 +39,33 @@ public class StockRepository {
 	public void save(Stock stock) {
 		MongoCollection<Stock> collection = getCollection();
 		if (stock.getId() != null) {
-			System.out.println("Stock ID " + stock.getId() + " alterado com sucesso");
+			Bson condition = Filters.eq("_id", stock.getId());
+
+			Document doc = new Document();
+			doc.put("name", stock.getName());
+			doc.put("date", stock.getDate());
+
+			Document valueDoc = new Document();
+			valueDoc.put("start", stock.getValue().getStart());
+			valueDoc.put("end", stock.getValue().getEnd());
+
+			doc.put("value", valueDoc);
+
+			collection.updateOne(condition, new Document("$set", doc));
+		} else {
+			collection.insertOne(stock);
 		}
-		collection.insertOne(stock);
 	}
 
 	public Optional<Stock> findOne(ObjectId id) {
-		List<Stock> stocks = this.findAll();
-		for(Stock stock : stocks) {
-			if (stock.getId().equals(id)) {
-				return Optional.of(stock);
-			}
+		for (Stock stock : getCollection().find(Filters.eq("_id", id))) {
+			return Optional.of(stock);
 		}
 		return Optional.empty();
+	}
+
+	public void delete(ObjectId id) {
+		getCollection().findOneAndDelete(Filters.eq("_id", id));
 	}
 
 	private MongoCollection<Stock> getCollection() {

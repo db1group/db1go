@@ -45,4 +45,8 @@ public class StockService {
 		return StockAdapter.toDTO(stock);
 	}
 
+	public void devele(ObjectId id) {
+		stockRepository.delete(id);
+	}
+
 }

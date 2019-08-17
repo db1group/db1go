@@ -17,7 +17,10 @@
           <td>{{ stock.dateFormated }}</td>
           <td>{{ stock.value.start }}</td>
           <td>{{ stock.value.end }}</td>
-          <td> <v-btn class="primary" @click="edit(stock.id)">Editar</v-btn> </td>
+          <td class="text-center">   
+            <v-icon small class="mr-2" @click="edit(stock.id)">edit</v-icon>
+            <v-icon small @click="remove(stock.id)">delete</v-icon>
+          </td>
         </tr>
       </tbody>
     </v-simple-table>
@@ -27,7 +30,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Stock from '../domain/stock/stock.entity';
 import StockService from '../domain/stock/stock.service';
-import { consoleInfo } from 'vuetify/src/util/console';
 
 @Component
 export default class Consulta extends Vue {
@@ -38,11 +40,19 @@ export default class Consulta extends Vue {
   }
 
   findAllStocks() {
-    StockService.getAll().then(stocks => (this.stocks = stocks));
+    StockService.getAll().then(stocks => this.stocks = stocks);
   }
 
   edit(id: string) {
-    this.$router.push(`/cadastro/${id}`);    
+    this.$router
+      .push(`/cadastro/${id}`);
+  }
+
+  remove(id: string) {
+    StockService
+      .remove(id)
+      .then(() => this.findAllStocks())
+      .catch(err => console.log(err));
   }
 }
 </script>
