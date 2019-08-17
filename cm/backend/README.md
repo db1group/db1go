@@ -30,9 +30,21 @@ Then, run the container using:
 
 `docker run -i --rm -p 8080:8080 quarkus/newbietrader-api`
 
-## Deploy
+## Deploy Docker
 
-Pré requirements
+
+Requirements
+
+* Docker Hub Account
+* Repository with name `newbie-trader-api`
+
+docker tag quarkus/newbietrader-api-jvm:latest db1go/newbie-trader-api:latest
+
+docker push db1go/newbie-trader-api:latest
+
+## Deploy Google Cloud
+
+Requirements
 
 * Google Account
 * Project with name `cm-newbie-trader`
