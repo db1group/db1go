@@ -3,7 +3,7 @@ module.exports = {
         port: 4200,
         proxy: {
             '^/stocks': {
-                target: 'http://localhost:8080',
+                target: 'http://35.193.36.55:80',
                 ws: true,
                 changeOrigin: true
             }
