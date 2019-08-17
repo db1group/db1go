@@ -22,26 +22,26 @@ import org.bson.types.Decimal128;
 
 public class StockCodec implements CollectibleCodec<Stock>{
 
-	 private final Codec<Document> documentCodec;
-	
+	private final Codec<Document> documentCodec;
+
 
 	public StockCodec() {
-	   this.documentCodec = MongoClient.getDefaultCodecRegistry().get(Document.class);
+		this.documentCodec = MongoClient.getDefaultCodecRegistry().get(Document.class);
 	}
 
-	
+
 	@Override
 	public void encode(BsonWriter writer, Stock stock, EncoderContext encoderContext) {
 		Document doc = new Document();
-        doc.put("name", stock.getName());
-        doc.put("date", stock.getDate());
-        
-        Document valueDoc = new Document();
-        valueDoc.put("start", stock.getValue().getStart());
-        valueDoc.put("end", stock.getValue().getEnd());
-   
-        doc.put("value", valueDoc);
-        documentCodec.encode(writer, doc, encoderContext);
+		doc.put("name", stock.getName());
+		doc.put("date", stock.getDate());
+
+		Document valueDoc = new Document();
+		valueDoc.put("start", stock.getValue().getStart());
+		valueDoc.put("end", stock.getValue().getEnd());
+
+		doc.put("value", valueDoc);
+		documentCodec.encode(writer, doc, encoderContext);
 	}
 
 	@Override
@@ -53,9 +53,10 @@ public class StockCodec implements CollectibleCodec<Stock>{
 	public Stock decode(BsonReader reader, DecoderContext decoderContext) {
 		Document doc = documentCodec.decode(reader, decoderContext);
 		Stock stock = new Stock();
+		stock.setId(doc.getObjectId("_id"));
 		stock.setName(doc.getString("name"));
 		stock.setDate(doc.getDate("date").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-		
+
 		Document valueDoc = doc.get("value", Document.class);
 
 		BigDecimal start = valueDoc.get("start", Decimal128.class).bigDecimalValue();

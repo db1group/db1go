@@ -11,26 +11,27 @@ public class StockAdapter {
 		Stock stock = new Stock();
 		stock.setDate(dto.getDate());
 		stock.setName(dto.getName());
-		
+
 		StockValueDTO valueDto = dto.getValue();
 		stock.setValue(StockValue.of(valueDto.getStart(), valueDto.getEnd()));
 		return stock;
 	}
-	
+
 	public static StockDTO toDTO(Stock stock) {
 		StockDTO dto = new StockDTO();
+		dto.setId(stock.getId().toHexString());
 		dto.setDate(stock.getDate());
 		dto.setName(stock.getName());
-		
+
 		StockValue value = stock.getValue();
-		
+
 		StockValueDTO valueDTO = new StockValueDTO();
 		valueDTO.setStart(value.getStart());
 		valueDTO.setEnd(value.getEnd());
 		dto.setValue(valueDTO);
-		
+
 		return dto;
 	}
-	
-	
+
+
 }
