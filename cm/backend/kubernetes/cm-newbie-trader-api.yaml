@@ -1,0 +1,67 @@
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  name: newbie-trader-api
+  namespace: default
+  labels:
+    app: newbie-trader-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newbie-trader-api
+  template:
+    metadata:
+      labels:
+        app: newbie-trader-api
+    spec:
+      containers:
+      - name: "newbie-trader-api"
+        image: "db1go/newbie-trader-api:latest"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: HorizontalPodAutoscaler
+metadata:
+  name: newbie-trader-api-hpa
+  namespace: default
+  labels:
+    app: newbie-trader-api
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: newbie-trader-api
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: newbie-trader-api-service
+  namespace: default
+  labels:
+    app: newbie-trader-api
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 8080
+  selector:
+    app: newbie-trader-api
+  type: LoadBalancer
+---
+apiVersion: v1
+data:
+  QUARKUS_MONGODB_CONNECTION_STRING: "mongodb://db1go2019:db1go2019@cluster0-shard-00-00-mffwe.gcp.mongodb.net:27017,cluster0-shard-00-01-mffwe.gcp.mongodb.net:27017,cluster0-shard-00-02-mffwe.gcp.mongodb.net:27017/cmnewbietrader?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
+  QUARKUS_MONGODB_TLS_INSECURE: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    app: newbie-trader-api
+  name: newbie-trader-api-config
+  namespace: default

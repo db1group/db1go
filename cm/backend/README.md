@@ -32,15 +32,18 @@ Then, run the container using:
 
 ## Deploy Docker
 
-
 Requirements
 
 * Docker Hub Account
 * Repository with name `newbie-trader-api`
 
-docker tag quarkus/newbietrader-api-jvm:latest db1go/newbie-trader-api:latest
+Tag your created image.
 
-docker push db1go/newbie-trader-api:latest
+`docker tag quarkus/newbietrader-api:latest db1go/newbie-trader-api:latest`
+
+Then, send image to docker hub.
+
+`docker push db1go/newbie-trader-api:latest`
 
 ## Deploy Google Cloud
 
@@ -48,3 +51,8 @@ Requirements
 
 * Google Account
 * Project with name `cm-newbie-trader`
+* Create a cluster with name `cm-newbie-trader`
+
+Copy file cm-newbie-trader-api.yaml for Google Cloud, and execute the follow command.
+
+`kubectl apply -f cm-newbie-trader-api.yaml`
